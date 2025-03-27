@@ -13,29 +13,29 @@ public class Main {
     //  Uncomment this block to pass the first stage
        ServerSocket serverSocket = null;
        Socket clientSocket = null;
-       int port = 6379;
+       int port = 6379; // redis server default port
        try {
          serverSocket = new ServerSocket(port);
          // Since the tester restarts your program quite often, setting SO_REUSEADDR
          // ensures that we don't run into 'Address already in use' errors
          serverSocket.setReuseAddress(true);
          // Wait for connection from client.
-         clientSocket = serverSocket.accept();
+         while ((clientSocket = serverSocket.accept()) != null) {
+           BufferedReader in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
+           OutputStream outputStream = clientSocket.getOutputStream();
+           String inputLine;
+           while ((inputLine = in.readLine()) != null) {
+             System.out.println(inputLine.toLowerCase());
+             if ("ping".equals(inputLine.toLowerCase())) {
+               outputStream.write("+PONG\r\n".getBytes());
+             }
+           }
+         }
        } catch (IOException e) {
          System.out.println("IOException: " + e.getMessage());
        } finally {
          try {
            if (clientSocket != null) {
-             BufferedReader in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
-             OutputStream outputStream = clientSocket.getOutputStream();
-             String inputLine;
-             while ((inputLine = in.readLine()) != null) {
-               System.out.println(inputLine.toLowerCase());
-               if ("ping".equals(inputLine.toLowerCase())) {
-                 outputStream.write("+PONG\r\n".getBytes());
-               }
-             }
-              
              clientSocket.close();
            }
          } catch (IOException e) {
