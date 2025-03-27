@@ -30,8 +30,10 @@ public class Main {
              OutputStream outputStream = clientSocket.getOutputStream();
              String inputLine;
              while ((inputLine = in.readLine()) != null) {
-              System.out.println(inputLine);
-              outputStream.write("+PONG\r\n".getBytes());
+               System.out.println(inputLine);
+               if ((inputLine.toLowerCase()) == "ping") {
+                 outputStream.write("+PONG\r\n".getBytes());
+               }
              }
               
              clientSocket.close();
