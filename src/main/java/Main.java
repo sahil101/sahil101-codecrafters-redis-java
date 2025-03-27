@@ -30,6 +30,7 @@ public class Main {
              OutputStream outputStream = clientSocket.getOutputStream();
              String inputLine;
              while ((inputLine = in.readLine()) != null) {
+              System.out.println(inputLine);
               outputStream.write("+PONG\r\n".getBytes());
              }
               
