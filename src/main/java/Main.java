@@ -16,10 +16,16 @@ public class Main {
       BufferedReader in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
       OutputStream outputStream = clientSocket.getOutputStream();
       String inputLine;
+      Boolean isEcho = true;
       while ((inputLine = in.readLine()) != null) {
         System.out.println(inputLine.toLowerCase());
         if ("ping".equals(inputLine.toLowerCase())) {
           outputStream.write("+PONG\r\n".getBytes());
+        } else if ("echo".equals(inputLine.toLowerCase())) {
+          isEcho = !isEcho;
+        } else if (isEcho) {
+          isEcho = !isEcho;
+          outputStream.write(("+" + inputLine + "\r\n").getBytes());
         }
       }
     } catch (IOException e) {
