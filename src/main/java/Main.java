@@ -17,15 +17,21 @@ public class Main {
       OutputStream outputStream = clientSocket.getOutputStream();
       String inputLine;
       Boolean isEcho = false;
+      Boolean skip = false;
       while ((inputLine = in.readLine()) != null) {
         System.out.println(inputLine.toLowerCase());
         if ("ping".equals(inputLine.toLowerCase())) {
           outputStream.write("+PONG\r\n".getBytes());
         } else if ("echo".equals(inputLine.toLowerCase())) {
           isEcho = !isEcho;
+          skip = true;
         } else if (isEcho) {
-          isEcho = !isEcho;
-          outputStream.write(("+" + inputLine + "\r\n").getBytes());
+          if (skip) {
+            skip = false;
+          } else {
+            isEcho = !isEcho;
+            outputStream.write(("+" + inputLine + "\r\n").getBytes());
+          }
         }
       }
     } catch (IOException e) {
