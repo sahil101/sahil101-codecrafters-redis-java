@@ -16,7 +16,7 @@ public class Main {
       BufferedReader in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
       OutputStream outputStream = clientSocket.getOutputStream();
       String inputLine;
-      Boolean isEcho = true;
+      Boolean isEcho = false;
       while ((inputLine = in.readLine()) != null) {
         System.out.println(inputLine.toLowerCase());
         if ("ping".equals(inputLine.toLowerCase())) {
