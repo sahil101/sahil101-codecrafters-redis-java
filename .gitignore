@@ -1,3 +1,5 @@
 *.jar
 target/
 .idea/
+RedisServerTest.java
+settings.json

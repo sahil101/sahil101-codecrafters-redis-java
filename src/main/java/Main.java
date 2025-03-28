@@ -36,7 +36,7 @@ public class Main {
   }
 
   public static void main(String[] args) {
-
+    // Creating a thread pool with 10 threads to handle concurrent connections
     ExecutorService threadPool = Executors.newFixedThreadPool(THREAD_POOL_SIZE);
 
     System.out.println("Logs from your program will appear here!");
@@ -46,6 +46,7 @@ public class Main {
     try {
       serverSocket = new ServerSocket(port);
       serverSocket.setReuseAddress(true);
+      System.out.println("Redis server is listening on port " + port + serverSocket.toString());
       // Wait for connection from client.
       while (true) {
         Socket clientSocket = serverSocket.accept(); // client socket
